@@ -1,0 +1,8 @@
+[
+    {
+        "id": "202601271406",
+        "scripts": [
+            "CREATE TABLE IF NOT EXISTS historique (id INT AUTO_INCREMENT PRIMARY KEY, choix VARCHAR(20))"
+        ]
+    }
+]

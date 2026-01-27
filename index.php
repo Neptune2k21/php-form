@@ -2,8 +2,8 @@
 $choix = "";
 
 $host = getenv('MYSQL_HOST') ?: 'db';
-$user = getenv('MYSQL_USER') ?: 'user';
-$pass = getenv('MYSQL_PASSWORD') ?: 'password';
+$user = getenv('MYSQL_USER') ?: 'root';
+$pass = getenv('MYSQL_PASSWORD') ?: 'rootpassword';
 $dbname = getenv('MYSQL_DATABASE') ?: 'form_alea';
 
 try {
@@ -13,6 +13,8 @@ try {
 } catch (PDOException $e) {
     die("Erreur de connexion : " . $e->getMessage());
 }
+
+
 
 $numCats = 1000;
 $catEmojis = ['🐱', '😸', '🐈', '😺', '🐈‍⬛', '😻', '😹', '😽'];
@@ -183,6 +185,14 @@ if (!empty($_POST['mot'])) {
             40% { transform: translateY(-10px); }
             60% { transform: translateY(-5px); }
         }
+
+        #france{
+            position: fixed;
+            right: 10px;
+            top: 10px;
+            height: 800px;
+            width: 300px;
+        }
     </style>
 </head>
 <body>
@@ -193,6 +203,7 @@ if (!empty($_POST['mot'])) {
 <ul>
     <li>Mamadou CISSE</li>
     <li>Enzo VANDEPOELE</li>
+    <li>Romain DURAND</li>
 </ul>
 
 <form method="post">
@@ -217,6 +228,8 @@ if (!empty($_POST['mot'])) {
 </div>
 
 <span id="cat-emoji">🐱</span>
+
+<img src="france.jpg" id="france">
 
 <script>
     document.getElementById('cat-emoji').addEventListener('click', function() {
