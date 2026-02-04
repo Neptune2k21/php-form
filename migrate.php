@@ -34,31 +34,31 @@ if ($migrations === null) {
 // Parcourir toutes les migrations
 foreach ($migrations as $migration) {
     $migrationId = $migration['id'];
-    
+
     // Vérifier si la migration a déjà été exécutée
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM migrations WHERE id = ?");
     $stmt->execute([$migrationId]);
     $exists = $stmt->fetchColumn() > 0;
-    
+
     if ($exists) {
         echo "Migration $migrationId déjà exécutée, ignorée.\n";
         continue;
     }
-    
+
     // Exécuter la migration
     echo "Exécution de la migration $migrationId...\n";
     try {
         $pdo->beginTransaction();
-        
+
         // Exécuter chaque script de la migration
         foreach ($migration['scripts'] as $script) {
             $pdo->exec($script);
         }
-        
+
         // Enregistrer la migration comme exécutée
         $stmt = $pdo->prepare("INSERT INTO migrations (id) VALUES (?)");
         $stmt->execute([$migrationId]);
-        
+
         $pdo->commit();
         echo "Migration $migrationId exécutée avec succès.\n";
     } catch (Exception $e) {
