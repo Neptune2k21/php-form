@@ -204,6 +204,7 @@ if (!empty($_POST['mot'])) {
     <li>Mamadou CISSE</li>
     <li>Enzo VANDEPOELE</li>
     <li>Romain DURAND</li>
+    <li>John</li>
 </ul>
 
 <form method="post">
