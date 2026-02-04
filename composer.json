@@ -1,0 +1,6 @@
+{
+  "name": "mamadou_cisse01/maintenanceapplicative",
+  "require": {
+    "phpunit/phpunit": "^12.5"
+  }
+}
