@@ -1,0 +1,56 @@
+name: CD - Deployment to FTP
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  # Job qui attend que le CI soit terminé
+  wait-for-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for CI to complete
+        uses: lewagon/wait-on-check-action@v1.3.4
+        with:
+          ref: ${{ github.ref }}
+          check-name: 'build'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 10
+
+  # Job de déploiement FTP
+  deploy:
+    needs: wait-for-ci
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Deploy to FTP
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: ${{ secrets.FTP_HOST }}
+        username: ${{ secrets.FTP_USER }}
+        password: ${{ secrets.FTP_PWD }}
+        server-dir: /
+        exclude: |
+          **/.git*
+          **/.git*/**
+          **/node_modules/**
+          **/tests/**
+          **/.github/**
+          **/docker-compose.yml
+          **/Dockerfile
+          **/phpstan.neon
+          **/README.md
+          **/composer.json
+          **/composer.lock
+          **/vendor/**
+
+    - name: Deployment Status
+      if: success()
+      run: echo "✅ Déploiement FTP réussi sur ${{ secrets.FTP_HOST }}"
