@@ -1,6 +1,12 @@
-# Lancer le projet Docker
+## Lancer le projet
+1. Installer les dépendances
+`composer i`
 
-docker compose up --build
+2. Lancer le projet Docker
+`docker compose up --build -d`
 
-# Exécuter les migrations :
-docker compose exec web php migrate.php
+3. Exécuter les migrations :
+`docker compose exec web php migrate.php`
+
+## Run le linter en local
+`composer phpstan`
